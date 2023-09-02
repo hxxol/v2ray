@@ -6,7 +6,7 @@
 # https://github.com/v2fly/domain-list-community
 
 FROM alpine:latest
-LABEL maintainer="Teddysun <i@teddysun.com>"
+LABEL maintainer="oiago <x@oiago.com>"
 
 WORKDIR /root
 COPY v2ray.sh /root/v2ray.sh
@@ -19,8 +19,7 @@ RUN set -ex \
 	&& rm -fv /root/v2ray.sh \
 	&& wget -O /usr/share/v2ray/geosite.dat https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat \
 	&& wget -O /usr/share/v2ray/geoip-only-cn-private.dat https://github.com/v2fly/geoip/releases/latest/download/geoip-only-cn-private.dat \
-	&& wget -O /usr/share/v2ray/geoip.dat https://github.com/v2fly/geoip/releases/latest/download/geoip.dat
-        && /bin/bash
+	&& wget -O /usr/share/v2ray/geoip.dat https://github.com/v2fly/geoip/releases/latest/download/geoip.dat \
 
 VOLUME /etc/v2ray
 ENV TZ=Asia/Shanghai
