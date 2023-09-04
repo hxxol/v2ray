@@ -12,7 +12,7 @@ WORKDIR /root
 COPY v2ray.sh /root/v2ray.sh
 COPY config.json /etc/v2ray/config.json
 RUN set -ex \
-        && sudo
+        && sudo \
 	&& apk add --no-cache tzdata ca-certificates \
 	&& mkdir -p /var/log/v2ray /usr/share/v2ray \
 	&& chmod +x /root/v2ray.sh \
