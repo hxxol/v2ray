@@ -1,0 +1,45 @@
+name: Trigger auto deployment for v2ray
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '//**'
+    - '.github/workflows/v2ray-AutoDeployTrigger-70d21f9f-f2d4-4242-986b-5535db04db8a.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.V2RAY_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.V2RAY_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.V2RAY_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: docker.io
+          registryUsername: ${{ secrets.V2RAY_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.V2RAY_REGISTRY_PASSWORD }}
+          containerAppName: v2ray
+          resourceGroup: rmm
+          imageToBuild: hxxol/v2ray:${{ github.sha }}
+          dockerfilePath: Dockerfile
+
+
