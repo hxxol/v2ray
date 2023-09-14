@@ -32,7 +32,7 @@
       "port": 62789,
       "protocol": "dokodemo-door",
       "settings": {
-        "address": "20.210.78.78"
+        "address": "0.0.0.0"
       },
       "streamSettings": null,
       "tag": "api",
